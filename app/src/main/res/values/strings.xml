@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Fiszki</string>
+    <string name="name">F I S Z K I</string>
+    <string name="subTitle">Nauka angielskiego nigdy nie była prostsza</string>
+    <string name="learn">Ucz się</string>
+    <string name="customize">Dostosuj skojarzenia</string>
+    <string name="progress">Postęp nauki</string>
+    <string name="title_activity_learn_activty">LearnActivty</string>
+
+</resources>
