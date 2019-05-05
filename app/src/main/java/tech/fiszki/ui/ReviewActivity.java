@@ -40,6 +40,7 @@ public class ReviewActivity extends AppCompatActivity {
     private EditText response;
 
     private static final int WORD_COUNT=2;
+    static ReviewActivity thisActivity;
 
 
     @Override
@@ -48,6 +49,7 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_learn);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        thisActivity = this;
 
         WordSelector wordSelector = new WordSelectorMock();
         wordsReviewList = wordSelector.nextWordsToReview(WORD_COUNT);
@@ -80,12 +82,14 @@ public class ReviewActivity extends AppCompatActivity {
                     double similarity = wordSimilarity.checkSimilarity(currentWord, response.getText().toString());
                     repetitionManager.saveRepetition(currentWord, similarity);
                     averageSimilarity += similarity;
-                    Toast.makeText(ReviewActivity.this, "Similarity: " + Double.toString(similarity), Toast.LENGTH_SHORT).show();
                     response.clearFocus();
-                    response.setText("");
                     hideKeyboard();
-                    currentWordCount++;
-                    displayWord();
+
+                    Intent popUp = new Intent(getApplicationContext(), PopActivity.class);
+                    popUp.putExtra("translatedWord",currentWord.getTranslatedWord());
+                    popUp.putExtra("similarity",similarity);
+
+                    startActivity(popUp);
                 }
             }
         });
@@ -107,9 +111,10 @@ public class ReviewActivity extends AppCompatActivity {
         displayWord();
     }
 
-    private void displayWord() {
+    void displayWord() {
         if(currentWordCount < WORD_COUNT) {
             currentWord = wordsReviewList.get(currentWordCount);
+            response.setText("");
 
             TextView originalWord = findViewById(R.id.originalWord);
             originalWord.setText(currentWord.getOriginalWord());
@@ -126,11 +131,17 @@ public class ReviewActivity extends AppCompatActivity {
                 associations.addView(textView);
             }
 
+            currentWordCount++;
         }
         else {
-            Toast.makeText(this, "Average: "+Double.toString(averageSimilarity/WORD_COUNT), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
+            double totalAverage = averageSimilarity/WORD_COUNT;
+            Intent popUp = new Intent(getApplicationContext(), PopActivity.class);
+            popUp.putExtra("translatedWord","Średni wynik");
+            popUp.putExtra("similarity",totalAverage);
+            popUp.putExtra("isSummary",true);
+            startActivity(popUp);
         }
     }
 
