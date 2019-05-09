@@ -38,10 +38,14 @@ public class ReviewActivity extends AppCompatActivity {
     private double averageSimilarity;
     private ImageView image;
     private EditText response;
+    private LinearLayout associations;
 
     private static final int WORD_COUNT=2;
     static ReviewActivity thisActivity;
 
+    public Word getCurrentWord() {
+        return currentWord;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,24 @@ public class ReviewActivity extends AppCompatActivity {
                     image.setVisibility(View.VISIBLE);
                     scrollView.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        image.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),CustomizeImage.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        associations = findViewById(R.id.associations);
+
+        associations.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                return false;
             }
         });
 
@@ -122,7 +144,6 @@ public class ReviewActivity extends AppCompatActivity {
             image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
 
 
-            LinearLayout associations = findViewById(R.id.associations);
             associations.removeAllViews();
             for(Association association : currentWord.getAssociations()) {
                 TextView textView = new TextView(this);
