@@ -9,8 +9,9 @@ public class ContentLoaderMock implements ContentLoader {
     @Override
     public List<String> loadImages(Word word, int numberOfImages) {
         List<String> images = new ArrayList<>();
-        images.add("duck");
+
         images.add("dog");
+        images.add("duck");
         return  images;
     }
 
