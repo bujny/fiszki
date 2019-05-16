@@ -90,6 +90,8 @@ public class ReviewActivity extends AppCompatActivity {
         associations.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),CustomizeAssociations.class);
+                startActivity(intent);
                 return false;
             }
         });
@@ -143,14 +145,7 @@ public class ReviewActivity extends AppCompatActivity {
 
             image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
 
-
-            associations.removeAllViews();
-            for(Association association : currentWord.getAssociations()) {
-                TextView textView = new TextView(this);
-                textView.setText(association.getAssociationWord());
-                textView.setTextSize(25f);
-                associations.addView(textView);
-            }
+            fillAsociations();
 
             currentWordCount++;
         }
@@ -185,6 +180,16 @@ public class ReviewActivity extends AppCompatActivity {
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    void fillAsociations() {
+        associations.removeAllViews();
+        for(Association association : currentWord.getAssociations()) {
+            TextView textView = new TextView(this);
+            textView.setText(association.getAssociationWord());
+            textView.setTextSize(25f);
+            associations.addView(textView);
         }
     }
 

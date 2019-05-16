@@ -8,6 +8,8 @@
     <string name="title_activity_learn_activty">LearnActivty</string>
     <string name="hint">Wprowadź tłumaczenie</string>
     <string name="go">Sprawdź</string>
+    <string name="dodaj">DODAJ</string>
+    <string name="dodaj_nowe_skojarzenie">Dodaj nowe skojarzenie</string>
 
 
 </resources>
