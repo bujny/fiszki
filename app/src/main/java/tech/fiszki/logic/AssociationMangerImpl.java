@@ -2,15 +2,15 @@ package tech.fiszki.logic;
 
 import java.util.List;
 
-import tech.fiszki.App;
 import tech.fiszki.data.Association;
 import tech.fiszki.data.DaoSession;
 import tech.fiszki.data.Word;
+import tech.fiszki.ui.MainActivity;
 
 public class AssociationMangerImpl implements AssociationManager {
     @Override
     public void addAssociationForWord(Word word, String associationWord)  {
-        DaoSession session = App.getDaoMaster().newSession();
+        DaoSession session = MainActivity.getDaoMaster().newSession();
         Association association = new Association();
         association.setAssociationWord(associationWord);
         association.setWord(word);
@@ -29,7 +29,7 @@ public class AssociationMangerImpl implements AssociationManager {
 
     @Override
     public void deleteAssocationFromWord(Word word, final String associationWord)  {
-        DaoSession session = App.getDaoMaster().newSession();
+        DaoSession session = MainActivity.getDaoMaster().newSession();
         word.getAssociations().removeIf(x->x.getAssociationWord().equals(associationWord));
         session.getWordDao().update(word);
 

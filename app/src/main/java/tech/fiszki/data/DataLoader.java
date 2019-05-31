@@ -8,7 +8,11 @@ import java.util.Date;
 
 public class DataLoader {
 
-    public static void load2(DaoSession daoSession) {
+    public static void load(DaoSession daoSession) {
+
+        if(daoSession.getWordDao().count() > 0){
+            return;
+        }
 
         ReviewAlgorithm reviewAlgorithm = ReviewAlgorithm.builder().name("Algorithm1").build();
         daoSession.getReviewAlgorithmDao().save(reviewAlgorithm);
@@ -23,7 +27,7 @@ public class DataLoader {
         int startedDaysAgo = 5;
         LocalDateTime startDate = LocalDateTime.now().minusHours(1).minusDays(startedDaysAgo);
 
-        Word w1 = Word.builder().originalWord("Word1").language("us").build();
+        Word w1 = Word.builder().originalWord("Word1").translatedWord("Word1").language("us").build();
         daoSession.getWordDao().save(w1);
         Repetition r1w1 = Repetition.builder().successRate(0.6).repetitionDate(Date.from(startDate.plusMinutes(10).atZone(ZoneId.systemDefault()).toInstant())).word(w1).build();
         //!!!!!!    Need to setWord not with builder after Word is saved to db (then it gets id)
@@ -36,7 +40,7 @@ public class DataLoader {
         w1.setRepetitions(Arrays.asList(r1w1, r2w1, r3w1));
 
 
-        Word w2 = Word.builder().originalWord("Word2").language("us").build();
+        Word w2 = Word.builder().originalWord("Word2").translatedWord("Word2").language("us").build();
         daoSession.getWordDao().save(w2);
 
         Repetition r1w2 = Repetition.builder().successRate(0.2).repetitionDate(Date.from(startDate.plusMinutes(10).atZone(ZoneId.systemDefault()).toInstant())).word(w2).build();
@@ -51,7 +55,7 @@ public class DataLoader {
         r5w2.setWord(w2);
         w2.setRepetitions(Arrays.asList(r1w2, r2w2, r3w2, r4w2, r5w2));
 
-        Word w3 = Word.builder().originalWord("Word3").language("us").build();
+        Word w3 = Word.builder().originalWord("Word3").translatedWord("Word3").language("us").build();
         daoSession.getWordDao().save(w3);
         Repetition r1w3 = Repetition.builder().successRate(0.2).repetitionDate(Date.from(startDate.plusMinutes(10).atZone(ZoneId.systemDefault()).toInstant())).word(w3).build();
         r1w3.setWord(w3);
@@ -62,7 +66,7 @@ public class DataLoader {
         w3.setRepetitions(Arrays.asList(r1w3, r2w3, r3w3));
 
 
-        Word w4 = Word.builder().originalWord("Word4").language("us").build();
+        Word w4 = Word.builder().originalWord("Word4").translatedWord("Word4").language("us").build();
         daoSession.getWordDao().save(w4);
         Repetition r1w4 = Repetition.builder().successRate(0.7).repetitionDate(Date.from(startDate.plusMinutes(10).atZone(ZoneId.systemDefault()).toInstant())).word(w4).build();
         r1w4.setWord(w4);
@@ -75,7 +79,7 @@ public class DataLoader {
         w4.setRepetitions(Arrays.asList(r1w4, r2w4, r3w4, r4w4));
 
 
-        Word w5 = Word.builder().originalWord("Word5").language("us").build();
+        Word w5 = Word.builder().originalWord("Word5").translatedWord("Word5").language("us").build();
         daoSession.getWordDao().save(w5);
         Repetition r1w5 = Repetition.builder().successRate(0.3).repetitionDate(Date.from(startDate.plusMinutes(10).atZone(ZoneId.systemDefault()).toInstant())).word(w5).build();
         r1w5.setWord(w5);
@@ -83,7 +87,7 @@ public class DataLoader {
         r2w5.setWord(w5);
         w5.setRepetitions(Arrays.asList(r1w5, r2w5));
 
-        Word w6 = Word.builder().originalWord("Word6").language("us").build();
+        Word w6 = Word.builder().originalWord("Word6").translatedWord("Word6").language("us").build();
         daoSession.getWordDao().save(w6);
         Repetition r1w6 = Repetition.builder().successRate(0.7).repetitionDate(Date.from(startDate.plusMinutes(10).atZone(ZoneId.systemDefault()).toInstant())).word(w6).build();
         r1w6.setWord(w6);
@@ -91,7 +95,7 @@ public class DataLoader {
         r2w6.setWord(w6);
         w6.setRepetitions(Arrays.asList(r1w6, r2w6));
 
-        Word w7 = Word.builder().originalWord("Word7").language("us").build();
+        Word w7 = Word.builder().originalWord("Word7").translatedWord("Word7").language("us").build();
         daoSession.getWordDao().save(w7);
         Repetition r1w7 = Repetition.builder().successRate(0.2).repetitionDate(Date.from(startDate.plusMinutes(10).atZone(ZoneId.systemDefault()).toInstant())).word(w7).build();
         r1w7.setWord(w7);
@@ -103,18 +107,18 @@ public class DataLoader {
         r4w7.setWord(w7);
         w7.setRepetitions(Arrays.asList(r1w7, r2w7, r3w7, r4w7));
 
-        Word w8 = Word.builder().originalWord("Word8").language("us").build();
+        Word w8 = Word.builder().originalWord("Word8").translatedWord("Word8").language("us").translatedWord("Word8").build();
         daoSession.getWordDao().save(w8);
         Repetition r1w8 = Repetition.builder().successRate(0.4).repetitionDate(Date.from(startDate.plusMinutes(10).atZone(ZoneId.systemDefault()).toInstant())).word(w8).build();
         r1w8.setWord(w8);
         w8.setRepetitions(Arrays.asList(r1w8));
 
-        Word w9 = Word.builder().originalWord("Word9").language("us").build();
+        Word w9 = Word.builder().originalWord("Word9").translatedWord("Word9").language("us").build();
         w9.setAssociations(new ArrayList<Association>());
         w9.setRepetitions(new ArrayList<Repetition>());
         daoSession.getWordDao().save(w9);
 
-        Word w10 = Word.builder().originalWord("Word10").language("us").build();
+        Word w10 = Word.builder().originalWord("Word10").translatedWord("Word10").language("us").build();
         w10.setAssociations(new ArrayList<Association>());
         w10.setRepetitions(new ArrayList<Repetition>());
         daoSession.getWordDao().save(w10);

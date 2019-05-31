@@ -7,14 +7,27 @@ import android.view.View;
 import android.widget.Button;
 
 import tech.fiszki.R;
+import tech.fiszki.data.DaoMaster;
+import tech.fiszki.data.DaoSession;
+import tech.fiszki.data.DataLoader;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static DaoMaster daoMaster;
+
+    public static DaoMaster getDaoMaster() {
+        return daoMaster;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        daoMaster = new DaoMaster(new DaoMaster.DevOpenHelper(this, "database1.db").getWritableDatabase());
+        DaoSession mDaoSession = daoMaster.newSession();
+
+        DataLoader.load(mDaoSession);
 
 
 

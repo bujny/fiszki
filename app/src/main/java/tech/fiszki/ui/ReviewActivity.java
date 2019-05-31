@@ -2,8 +2,8 @@ package tech.fiszki.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,12 +22,13 @@ import tech.fiszki.R;
 import tech.fiszki.data.Association;
 import tech.fiszki.data.Word;
 import tech.fiszki.logic.RepetitionManager;
-import tech.fiszki.logic.RepetitionManagerMock;
+import tech.fiszki.logic.RepetitionManagerImpl;
 import tech.fiszki.logic.TextToSpeech;
-import tech.fiszki.logic.WordSelector;
-import tech.fiszki.logic.WordSelectorMock;
 import tech.fiszki.logic.WordSimilarity;
 import tech.fiszki.logic.WordSimilarityMock;
+import tech.fiszki.logic.repetition_algorithm.InsufficientWordCountException;
+import tech.fiszki.logic.repetition_algorithm.MainWordsSelector;
+import tech.fiszki.logic.repetition_algorithm.WordSelector;
 
 public class ReviewActivity extends AppCompatActivity {
     private List<Word> wordsReviewList;
@@ -41,6 +42,9 @@ public class ReviewActivity extends AppCompatActivity {
     private static final int WORD_COUNT=2;
     static ReviewActivity thisActivity;
 
+    private WordSelector wordSelector = new MainWordsSelector();
+
+
     public Word getCurrentWord() {
         return currentWord;
     }
@@ -53,8 +57,11 @@ public class ReviewActivity extends AppCompatActivity {
 
         thisActivity = this;
 
-        WordSelector wordSelector = new WordSelectorMock();
-        wordsReviewList = wordSelector.nextWordsToReview(WORD_COUNT);
+        try {
+            wordsReviewList = wordSelector.nextWordsToReview(WORD_COUNT);
+        } catch (InsufficientWordCountException e) {
+            e.printStackTrace();
+        }
 
         image = findViewById(R.id.image);
         final ScrollView scrollView = findViewById(R.id.scrollView);
@@ -99,7 +106,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!response.getText().toString().matches("")) {
-                    RepetitionManager repetitionManager = new RepetitionManagerMock();
+                    RepetitionManager repetitionManager = new RepetitionManagerImpl();
                     WordSimilarity wordSimilarity = new WordSimilarityMock();
                     double similarity = wordSimilarity.checkSimilarity(currentWord, response.getText().toString());
                     repetitionManager.saveRepetition(currentWord, similarity);

@@ -2,15 +2,16 @@ package tech.fiszki.logic;
 
 import java.util.Date;
 
-import tech.fiszki.App;
+
 import tech.fiszki.data.DaoSession;
 import tech.fiszki.data.Repetition;
 import tech.fiszki.data.Word;
+import tech.fiszki.ui.MainActivity;
 
 public class RepetitionManagerImpl implements RepetitionManager {
     @Override
     public void saveRepetition(Word word, double successRate) {
-        DaoSession session = App.getDaoMaster().newSession();
+        DaoSession session = MainActivity.getDaoMaster().newSession();
         Repetition repetition = new Repetition();
 //          Check if deteched
 //        tech.fiszki.data.Word word1 = session.getWordDao().queryBuilder()
