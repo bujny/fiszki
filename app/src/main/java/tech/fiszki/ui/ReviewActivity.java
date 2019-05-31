@@ -1,11 +1,9 @@
 package tech.fiszki.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,7 +19,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import tech.fiszki.R;
-import tech.fiszki.logic.Association;
+import tech.fiszki.data.Association;
 import tech.fiszki.logic.RepetitionManager;
 import tech.fiszki.logic.RepetitionManagerMock;
 import tech.fiszki.logic.TextToSpeech;

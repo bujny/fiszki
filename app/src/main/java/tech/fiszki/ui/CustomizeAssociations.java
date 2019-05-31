@@ -8,10 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import tech.fiszki.R;
-import tech.fiszki.logic.Association;
+import tech.fiszki.data.Association;
 import tech.fiszki.logic.Word;
 
 public class CustomizeAssociations extends AppCompatActivity {
@@ -35,7 +34,7 @@ public class CustomizeAssociations extends AppCompatActivity {
                 EditText editText = findViewById(R.id.newAssociation);
                 String text = String.valueOf(editText.getText());
                 if(!text.matches("")){
-                    currentWord.addAssociation(new Association(text));
+                    currentWord.addAssociation(Association.builder().associationWord(text).build());
                     fillScrollViewWithAssociations();
                     editText.setText("");
                 }

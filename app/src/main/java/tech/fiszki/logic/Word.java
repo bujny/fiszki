@@ -4,6 +4,8 @@ package tech.fiszki.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.fiszki.data.Association;
+
 public class Word {
     private int id;
     private String originalWord;
