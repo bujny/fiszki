@@ -1,5 +1,7 @@
 package tech.fiszki.logic;
 
+import tech.fiszki.data.Word;
+
 public class WordSimilarityMock implements WordSimilarity {
     @Override
     public double checkSimilarity(Word word, String text) {

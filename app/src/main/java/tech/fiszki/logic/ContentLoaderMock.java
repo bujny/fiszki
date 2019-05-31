@@ -5,6 +5,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.fiszki.data.Word;
+
 public class ContentLoaderMock implements ContentLoader {
     @Override
     public List<String> loadImages(Word word, int numberOfImages) {

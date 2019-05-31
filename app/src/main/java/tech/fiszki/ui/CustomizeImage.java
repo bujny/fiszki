@@ -1,26 +1,18 @@
 package tech.fiszki.ui;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.List;
 
 import tech.fiszki.R;
+import tech.fiszki.data.Word;
 import tech.fiszki.logic.ContentLoader;
 import tech.fiszki.logic.ContentLoaderMock;
-import tech.fiszki.logic.Word;
 
 public class CustomizeImage extends AppCompatActivity {
     static final int NUMBER_OF_IMAGES=2;

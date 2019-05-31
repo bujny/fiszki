@@ -20,10 +20,10 @@ import java.util.List;
 
 import tech.fiszki.R;
 import tech.fiszki.data.Association;
+import tech.fiszki.data.Word;
 import tech.fiszki.logic.RepetitionManager;
 import tech.fiszki.logic.RepetitionManagerMock;
 import tech.fiszki.logic.TextToSpeech;
-import tech.fiszki.logic.Word;
 import tech.fiszki.logic.WordSelector;
 import tech.fiszki.logic.WordSelectorMock;
 import tech.fiszki.logic.WordSimilarity;
