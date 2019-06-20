@@ -123,6 +123,29 @@ public class DataLoader {
         w10.setRepetitions(new ArrayList<Repetition>());
         daoSession.getWordDao().save(w10);
 
+        Word w11 = Word.builder().originalWord("Word11").translatedWord("Word11").language("us").build();
+        w11.setAssociations(new ArrayList<Association>());
+        w11.setRepetitions(new ArrayList<Repetition>());
+        daoSession.getWordDao().save(w11);
+
+
+        Word w12 = Word.builder().originalWord("Word12").translatedWord("Word12").language("us").build();
+        w12.setAssociations(new ArrayList<Association>());
+        w12.setRepetitions(new ArrayList<Repetition>());
+        daoSession.getWordDao().save(w12);
+
+
+        Word w13 = Word.builder().originalWord("Word13").translatedWord("Word13").language("us").build();
+        w13.setAssociations(new ArrayList<Association>());
+        w13.setRepetitions(new ArrayList<Repetition>());
+        daoSession.getWordDao().save(w13);
+
+
+        Word w14 = Word.builder().originalWord("Word14").translatedWord("Word14").language("us").build();
+        w14.setAssociations(new ArrayList<Association>());
+        w14.setRepetitions(new ArrayList<Repetition>());
+        daoSession.getWordDao().save(w14);
+
 
 
 
