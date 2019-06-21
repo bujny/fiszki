@@ -2,6 +2,14 @@ package tech.fiszki;
 
 import org.junit.Test;
 
+import tech.fiszki.data.Word;
+import tech.fiszki.logic.ContentLoader;
+import tech.fiszki.logic.ContentLoaderMock;
+import tech.fiszki.logic.repetition_algorithm.InsufficientWordCountException;
+import tech.fiszki.logic.repetition_algorithm.MainWordsSelector;
+import tech.fiszki.logic.repetition_algorithm.WordSelector;
+import tech.fiszki.ui.MainActivity;
+
 import static org.junit.Assert.*;
 
 /**

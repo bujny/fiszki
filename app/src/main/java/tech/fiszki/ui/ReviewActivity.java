@@ -21,6 +21,8 @@ import java.util.List;
 import tech.fiszki.R;
 import tech.fiszki.data.Association;
 import tech.fiszki.data.Word;
+import tech.fiszki.logic.ContentLoader;
+import tech.fiszki.logic.ContentLoaderMock;
 import tech.fiszki.logic.RepetitionManager;
 import tech.fiszki.logic.RepetitionManagerImpl;
 import tech.fiszki.logic.TextToSpeech;
@@ -38,6 +40,7 @@ public class ReviewActivity extends AppCompatActivity {
     private ImageView image;
     private EditText response;
     private LinearLayout associations;
+    private ContentLoader contentLoader;
 
     private static final int WORD_COUNT=2;
     static ReviewActivity thisActivity;
@@ -56,6 +59,7 @@ public class ReviewActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         thisActivity = this;
+        contentLoader = new ContentLoaderMock();
 
         try {
             wordsReviewList = wordSelector.nextWordsToReview(WORD_COUNT);
@@ -149,6 +153,7 @@ public class ReviewActivity extends AppCompatActivity {
             originalWord.setText(currentWord.getOriginalWord());
 
             image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
+            contentLoader.saveImageForWord(currentWord,"https://www.blasty.pl/upload/images/large/2017/06/ni-pies-ni-wydra-cos-na-ksztalt_2017-06-26_08-19-34.jpg");
 
             fillAsociations();
 

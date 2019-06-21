@@ -2,7 +2,11 @@ package tech.fiszki.logic;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.util.Log;
 
+import java.io.Console;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -31,7 +35,41 @@ public class ContentLoaderMock implements ContentLoader {
     }
 
     @Override
-    public void saveImageForWord(Word word, String image) {
+    public void saveImageForWord(Word word, String link) {
+        BasicImageDownloader imageDownloader = new BasicImageDownloader(new BasicImageDownloader.OnImageLoaderListener() {
+            @Override
+            public void onError(BasicImageDownloader.ImageError error) {
+                error.printStackTrace();
+
+            }
+
+            @Override
+            public void onProgressChange(int percent) {
+
+            }
+
+            @Override
+            public void onComplete(Bitmap result) {
+                final Bitmap.CompressFormat mFormat = Bitmap.CompressFormat.JPEG;
+                final File myImageFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                        File.separator + "saved_images" + File.separator + word.getOriginalWord() + "." + mFormat.name().toLowerCase());
+                BasicImageDownloader.writeToDisk(myImageFile, result, new BasicImageDownloader.OnBitmapSaveListener() {
+                    @Override
+                    public void onBitmapSaved() {
+                        Log.i("CL","bitmap saved");
+                    }
+
+                    @Override
+                    public void onBitmapSaveError(BasicImageDownloader.ImageError error) {
+                        error.printStackTrace();
+                    }
+
+                }, mFormat, false);
+
+            }
+        });
+
+        imageDownloader.download(link,false);
 
     }
 
