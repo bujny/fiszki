@@ -147,6 +147,10 @@ public class DataLoader {
         daoSession.getWordDao().save(w14);
 
 
+        ArrayList<Word> words = new ArrayList<>();
+        for (int i = 20; i < 100 ; i++) {
+            words.add(Word.builder().originalWord("Word"+i).translatedWord("Word"+i).language("us").build());
+        }
 
 
         daoSession.getReviewDayDao().save(d1);
@@ -189,6 +193,16 @@ public class DataLoader {
         daoSession.getWordDao().save(w6);
         daoSession.getWordDao().save(w7);
         daoSession.getWordDao().save(w8);
+        daoSession.getWordDao().save(w9);
+        daoSession.getWordDao().save(w10);
+        daoSession.getWordDao().save(w11);
+        daoSession.getWordDao().save(w12);
+        daoSession.getWordDao().save(w13);
+        daoSession.getWordDao().save(w14);
+
+        for (Word word : words) {
+            daoSession.getWordDao().save(word);
+        }
 
     }
 }
