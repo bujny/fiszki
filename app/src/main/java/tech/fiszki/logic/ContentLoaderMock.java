@@ -2,11 +2,13 @@ package tech.fiszki.logic;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
 import java.io.Console;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -37,8 +39,15 @@ public class ContentLoaderMock implements ContentLoader {
 
     @Override
     public Bitmap getCurrentWordImage(Word word) {
-        return null;
+        final Bitmap.CompressFormat mFormat = Bitmap.CompressFormat.JPEG;
+        final File myImageFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                File.separator + "flashcards" + File.separator + word.getOriginalWord() +"-" + word.getLanguage() + "." + mFormat.name().toLowerCase());
+
+        return readFromDisk(myImageFile);
     }
+
+
+
 
     @Override
     public void saveImageForWord(Word word, String url) {
@@ -70,13 +79,18 @@ public class ContentLoaderMock implements ContentLoader {
                         error.printStackTrace();
                     }
 
-                }, mFormat, false);
+                }, mFormat, true);
 
             }
         });
 
         imageDownloader.download(url,false);
 
+    }
+
+    private Bitmap readFromDisk(File imageFile) {
+        if (!imageFile.exists() || imageFile.isDirectory()) return null;
+        return BitmapFactory.decodeFile(imageFile.getAbsolutePath());
     }
 
 

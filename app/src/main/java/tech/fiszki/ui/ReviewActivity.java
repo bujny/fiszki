@@ -2,8 +2,10 @@ package tech.fiszki.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -40,7 +42,7 @@ public class ReviewActivity extends AppCompatActivity {
     private ImageView image;
     private EditText response;
     private LinearLayout associations;
-    private ContentLoader contentLoader;
+    private ContentLoader contentLoader = new ContentLoaderMock();
 
     private static final int WORD_COUNT=2;
     static ReviewActivity thisActivity;
@@ -152,8 +154,11 @@ public class ReviewActivity extends AppCompatActivity {
             TextView originalWord = findViewById(R.id.originalWord);
             originalWord.setText(currentWord.getOriginalWord());
 
-            image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
-            contentLoader.saveImageForWord(currentWord,"https://www.blasty.pl/upload/images/large/2017/06/ni-pies-ni-wydra-cos-na-ksztalt_2017-06-26_08-19-34.jpg");
+
+            Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
+            image.setImageBitmap(currentWordImage);
+//            image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
+//            contentLoader.saveImageForWord(currentWord,"https://www.blasty.pl/upload/images/large/2017/06/ni-pies-ni-wydra-cos-na-ksztalt_2017-06-26_08-19-34.jpg");
 
             fillAsociations();
 
@@ -170,6 +175,30 @@ public class ReviewActivity extends AppCompatActivity {
             startActivity(popUp);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.i("CL","review resumed");
+
+        Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
+
+        image.setImageBitmap(currentWordImage);
+        image.invalidate();
+
+        Log.i("CL","image invalidated");
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.i("CL","review paused");
+
+    }
+
 
     private int getImageId(Context context, String imageName) {
         return context.getResources().getIdentifier("drawable/" + imageName, null, context.getPackageName());
