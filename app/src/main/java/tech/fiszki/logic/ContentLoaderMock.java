@@ -19,6 +19,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import tech.fiszki.data.Word;
+import tech.fiszki.ui.CustomizeImage;
 
 public class ContentLoaderMock implements ContentLoader {
     private static final Pattern TAG_REGEX = Pattern.compile("\"largeImageURL\":\"(.+?)\",", Pattern.DOTALL);
@@ -49,7 +50,7 @@ public class ContentLoaderMock implements ContentLoader {
 
 
     @Override
-    public void saveImageForWord(Word word, String url) {
+    public void saveImageForWord(Word word, String url, CustomizeImage ci) {
         BasicImageDownloader imageDownloader = new BasicImageDownloader(new BasicImageDownloader.OnImageLoaderListener() {
             @Override
             public void onError(BasicImageDownloader.ImageError error) {
@@ -64,13 +65,16 @@ public class ContentLoaderMock implements ContentLoader {
 
             @Override
             public void onComplete(Bitmap result) {
+                Log.i("CL","bitmap download completed");
                 final Bitmap.CompressFormat mFormat = Bitmap.CompressFormat.JPEG;
+                Log.i("CL","bitmap before saving");
                 final File myImageFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
                         File.separator + "flashcards" + File.separator + word.getOriginalWord() +"-" + word.getLanguage() + "." + mFormat.name().toLowerCase());
                 BasicImageDownloader.writeToDisk(myImageFile, result, new BasicImageDownloader.OnBitmapSaveListener() {
                     @Override
                     public void onBitmapSaved() {
                         Log.i("CL","bitmap saved");
+                        ci.finish();
                     }
 
                     @Override

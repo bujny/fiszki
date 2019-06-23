@@ -153,12 +153,9 @@ public class ReviewActivity extends AppCompatActivity {
             TextView originalWord = findViewById(R.id.originalWord);
             originalWord.setText(currentWord.getOriginalWord());
 
-
+            //contentLoader.saveImageForWord(currentWord,"https://www.blasty.pl/upload/images/large/2017/06/ni-pies-ni-wydra-cos-na-ksztalt_2017-06-26_08-19-34.jpg");
             Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
             image.setImageBitmap(currentWordImage);
-            //image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
-            //contentLoader.saveImageForWord(currentWord,"https://www.blasty.pl/upload/images/large/2017/06/ni-pies-ni-wydra-cos-na-ksztalt_2017-06-26_08-19-34.jpg");
-
             fillAsociations();
 
             currentWordCount++;
@@ -175,27 +172,25 @@ public class ReviewActivity extends AppCompatActivity {
         }
     }
 
+   @Override
+    protected void onStart(){
+       super.onStart();
+       Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
+       image.setImageBitmap(currentWordImage);
+       Log.i("CL","review started");
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-
         Log.i("CL","review resumed");
-
-        Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
-
-        image.setImageBitmap(currentWordImage);
-        image.invalidate();
-
-        Log.i("CL","image invalidated");
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
-
         Log.i("CL","review paused");
-
     }
 
 
