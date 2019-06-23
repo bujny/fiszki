@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,14 +26,10 @@ import tech.fiszki.data.Word;
 import tech.fiszki.logic.ContentLoader;
 import tech.fiszki.logic.ContentLoaderMock;
 import tech.fiszki.logic.RepetitionManager;
-import tech.fiszki.logic.RepetitionManagerMock;
 import tech.fiszki.logic.TTF;
 import tech.fiszki.logic.TextToSpeechMock;
-import tech.fiszki.logic.Word;
-import tech.fiszki.logic.WordSelector;
-import tech.fiszki.logic.WordSelectorMock;
 import tech.fiszki.logic.RepetitionManagerImpl;
-import tech.fiszki.logic.TextToSpeech;
+
 import tech.fiszki.logic.WordSimilarity;
 import tech.fiszki.logic.WordSimilarityMock;
 import tech.fiszki.logic.repetition_algorithm.InsufficientWordCountException;
@@ -55,7 +50,6 @@ public class ReviewActivity extends AppCompatActivity {
     static ReviewActivity thisActivity;
 
     private WordSelector wordSelector = new MainWordsSelector();
-
 
     public Word getCurrentWord() {
         return currentWord;
