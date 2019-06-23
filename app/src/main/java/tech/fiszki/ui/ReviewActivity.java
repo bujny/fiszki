@@ -1,11 +1,9 @@
 package tech.fiszki.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,7 +22,8 @@ import tech.fiszki.R;
 import tech.fiszki.logic.Association;
 import tech.fiszki.logic.RepetitionManager;
 import tech.fiszki.logic.RepetitionManagerMock;
-import tech.fiszki.logic.TextToSpeech;
+import tech.fiszki.logic.TTF;
+import tech.fiszki.logic.TextToSpeechMock;
 import tech.fiszki.logic.Word;
 import tech.fiszki.logic.WordSelector;
 import tech.fiszki.logic.WordSelectorMock;
@@ -47,6 +46,8 @@ public class ReviewActivity extends AppCompatActivity {
         return currentWord;
     }
 
+    TTF textToSpeech = new TextToSpeechMock();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class ReviewActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         thisActivity = this;
+        textToSpeech.onInit(getApplicationContext());
 
         WordSelector wordSelector = new WordSelectorMock();
         wordsReviewList = wordSelector.nextWordsToReview(WORD_COUNT);
@@ -122,17 +124,12 @@ public class ReviewActivity extends AppCompatActivity {
         speaker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextToSpeech textToSpeech = new TextToSpeech() {
-                    @Override
-                    public void read(String text) {
-                        Toast.makeText(ReviewActivity.this, "reading "+text, Toast.LENGTH_SHORT).show();
-                    }
-                };
                 textToSpeech.read(currentWord.getOriginalWord());
             }
         });
 
         displayWord();
+
     }
 
     void displayWord() {
