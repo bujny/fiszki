@@ -156,8 +156,8 @@ public class ReviewActivity extends AppCompatActivity {
 
             Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
             image.setImageBitmap(currentWordImage);
-//            image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
-//            contentLoader.saveImageForWord(currentWord,"https://www.blasty.pl/upload/images/large/2017/06/ni-pies-ni-wydra-cos-na-ksztalt_2017-06-26_08-19-34.jpg");
+            //image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
+            //contentLoader.saveImageForWord(currentWord,"https://www.blasty.pl/upload/images/large/2017/06/ni-pies-ni-wydra-cos-na-ksztalt_2017-06-26_08-19-34.jpg");
 
             fillAsociations();
 
