@@ -4,6 +4,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import java.util.*;
+import tech.fiszki.data.Word;
 
 public class WordSimilarityMock implements WordSimilarity {
     @RequiresApi(api = Build.VERSION_CODES.N)

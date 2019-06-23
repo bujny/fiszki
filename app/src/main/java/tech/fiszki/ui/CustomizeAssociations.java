@@ -8,11 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import tech.fiszki.R;
-import tech.fiszki.logic.Association;
-import tech.fiszki.logic.Word;
+import tech.fiszki.data.Association;
+import tech.fiszki.data.Word;
 
 public class CustomizeAssociations extends AppCompatActivity {
     final Word currentWord = ReviewActivity.thisActivity.getCurrentWord();
@@ -35,9 +34,9 @@ public class CustomizeAssociations extends AppCompatActivity {
                 EditText editText = findViewById(R.id.newAssociation);
                 String text = String.valueOf(editText.getText());
                 if(!text.matches("")){
-                    currentWord.addAssociation(new Association(text));
-                    fillScrollViewWithAssociations();
-                    editText.setText("");
+//                    currentWord.addAssociation(Association.builder().associationWord(text).build());
+//                    fillScrollViewWithAssociations();
+//                    editText.setText("");
                 }
             }
         });
@@ -54,8 +53,8 @@ public class CustomizeAssociations extends AppCompatActivity {
             textView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    currentWord.removeAssociation(association);
-                    linearLayout.removeView(view);
+//                    currentWord.removeAssociation(association);
+//                    linearLayout.removeView(view);
                     return true;
                 }
             });

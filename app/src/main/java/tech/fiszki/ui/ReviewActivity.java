@@ -2,8 +2,11 @@ package tech.fiszki.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,7 +22,10 @@ import android.widget.Toast;
 import java.util.List;
 
 import tech.fiszki.R;
-import tech.fiszki.logic.Association;
+import tech.fiszki.data.Association;
+import tech.fiszki.data.Word;
+import tech.fiszki.logic.ContentLoader;
+import tech.fiszki.logic.ContentLoaderMock;
 import tech.fiszki.logic.RepetitionManager;
 import tech.fiszki.logic.RepetitionManagerMock;
 import tech.fiszki.logic.TTF;
@@ -27,8 +33,13 @@ import tech.fiszki.logic.TextToSpeechMock;
 import tech.fiszki.logic.Word;
 import tech.fiszki.logic.WordSelector;
 import tech.fiszki.logic.WordSelectorMock;
+import tech.fiszki.logic.RepetitionManagerImpl;
+import tech.fiszki.logic.TextToSpeech;
 import tech.fiszki.logic.WordSimilarity;
 import tech.fiszki.logic.WordSimilarityMock;
+import tech.fiszki.logic.repetition_algorithm.InsufficientWordCountException;
+import tech.fiszki.logic.repetition_algorithm.MainWordsSelector;
+import tech.fiszki.logic.repetition_algorithm.WordSelector;
 
 public class ReviewActivity extends AppCompatActivity {
     private List<Word> wordsReviewList;
@@ -38,9 +49,13 @@ public class ReviewActivity extends AppCompatActivity {
     private ImageView image;
     private EditText response;
     private LinearLayout associations;
+    private ContentLoader contentLoader = new ContentLoaderMock();
 
     private static final int WORD_COUNT=2;
     static ReviewActivity thisActivity;
+
+    private WordSelector wordSelector = new MainWordsSelector();
+
 
     public Word getCurrentWord() {
         return currentWord;
@@ -56,9 +71,13 @@ public class ReviewActivity extends AppCompatActivity {
 
         thisActivity = this;
         textToSpeech.onInit(getApplicationContext());
+        contentLoader = new ContentLoaderMock();
 
-        WordSelector wordSelector = new WordSelectorMock();
-        wordsReviewList = wordSelector.nextWordsToReview(WORD_COUNT);
+        try {
+            wordsReviewList = wordSelector.nextWordsToReview(WORD_COUNT);
+        } catch (InsufficientWordCountException e) {
+            e.printStackTrace();
+        }
 
         image = findViewById(R.id.image);
         final ScrollView scrollView = findViewById(R.id.scrollView);
@@ -103,7 +122,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!response.getText().toString().matches("")) {
-                    RepetitionManager repetitionManager = new RepetitionManagerMock();
+                    RepetitionManager repetitionManager = new RepetitionManagerImpl();
                     WordSimilarity wordSimilarity = new WordSimilarityMock();
                     double similarity = wordSimilarity.checkSimilarity(currentWord, response.getText().toString());
                     repetitionManager.saveRepetition(currentWord, similarity);
@@ -140,7 +159,11 @@ public class ReviewActivity extends AppCompatActivity {
             TextView originalWord = findViewById(R.id.originalWord);
             originalWord.setText(currentWord.getOriginalWord());
 
-            image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
+
+            Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
+            image.setImageBitmap(currentWordImage);
+//            image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
+//            contentLoader.saveImageForWord(currentWord,"https://www.blasty.pl/upload/images/large/2017/06/ni-pies-ni-wydra-cos-na-ksztalt_2017-06-26_08-19-34.jpg");
 
             fillAsociations();
 
@@ -157,6 +180,30 @@ public class ReviewActivity extends AppCompatActivity {
             startActivity(popUp);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.i("CL","review resumed");
+
+        Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
+
+        image.setImageBitmap(currentWordImage);
+        image.invalidate();
+
+        Log.i("CL","image invalidated");
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.i("CL","review paused");
+
+    }
+
 
     private int getImageId(Context context, String imageName) {
         return context.getResources().getIdentifier("drawable/" + imageName, null, context.getPackageName());
