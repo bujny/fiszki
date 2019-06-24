@@ -16,8 +16,8 @@ public class MainWordsSelector implements WordSelector {
 
     //Returns to zero whenever it reaches formula calculated value then new words will be returned
     //TODO -> Store counter somewhere
-    private int reviewCounter = 0;
-    private int intialReviewCounter = 0;
+    public static int reviewCounter = 0;
+    public static int initialReviewCounter = 0;
 
     public static final int LEARNT_WORD_PERCENTAGE_MAX_ADDITIONAL_DAYS = 5;
     public static final int ON_TIME_REPETITION_PERCENTAGE_MAX_ADDITIONAL_DAYS = 3;
@@ -47,8 +47,8 @@ public class MainWordsSelector implements WordSelector {
         // reviewCounterThreshold =  1 + (5 * (1-percentageOfLearntWords) + 3*(1-onTimeRepetitonPercentage)_
 
 
-        if (intialReviewCounter <= INITIAL_NEW_REVIEWS_COUNT) {
-            intialReviewCounter++;
+        if (initialReviewCounter <= INITIAL_NEW_REVIEWS_COUNT) {
+            initialReviewCounter++;
             reviewCounter++;
             return newWordsSelector.nextWordsToReview(wordCount);
         }

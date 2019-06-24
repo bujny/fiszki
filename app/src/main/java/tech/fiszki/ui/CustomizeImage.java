@@ -45,7 +45,7 @@ public class CustomizeImage extends AppCompatActivity {
             case REQUEST: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //tutaj można by zrobić że zapisuje ale na razie za dużo myślenia.
-                    Toast.makeText(mContext, "Przyznano dostęp do plików.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(mContext, "Przyznano dostęp do plików.", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(mContext, "Aplikacja nie ma zgody na dostęp do Twoich plików.", Toast.LENGTH_LONG).show();
                 }
@@ -95,6 +95,7 @@ public class CustomizeImage extends AppCompatActivity {
                         ActivityCompat.requestPermissions((Activity) mContext, PERMISSIONS, REQUEST );
                     } else {
                         contentLoader.saveImageForWord(currentWord,link,this);
+
                         return true;
                     }
                 } else {
