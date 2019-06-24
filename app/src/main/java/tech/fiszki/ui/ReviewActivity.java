@@ -112,24 +112,21 @@ public class ReviewActivity extends AppCompatActivity {
         });
 
         Button go = findViewById(R.id.go);
-        go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!response.getText().toString().matches("")) {
-                    RepetitionManager repetitionManager = new RepetitionManagerImpl();
-                    WordSimilarity wordSimilarity = new WordSimilarityMock();
-                    double similarity = wordSimilarity.checkSimilarity(currentWord, response.getText().toString());
-                    repetitionManager.saveRepetition(currentWord, similarity);
-                    averageSimilarity += similarity;
-                    response.clearFocus();
-                    hideKeyboard();
+        go.setOnClickListener(view -> {
+            if(!response.getText().toString().matches("")) {
+                RepetitionManager repetitionManager = new RepetitionManagerImpl();
+                WordSimilarity wordSimilarity = new WordSimilarityMock();
+                double similarity = wordSimilarity.checkSimilarity(currentWord, response.getText().toString());
+                repetitionManager.saveRepetition(currentWord, similarity);
+                averageSimilarity += similarity;
+                response.clearFocus();
+                hideKeyboard();
 
-                    Intent popUp = new Intent(getApplicationContext(), PopActivity.class);
-                    popUp.putExtra("translatedWord",currentWord.getTranslatedWord());
-                    popUp.putExtra("similarity",similarity);
+                Intent popUp = new Intent(getApplicationContext(), PopActivity.class);
+                popUp.putExtra("translatedWord",currentWord.getTranslatedWord());
+                popUp.putExtra("similarity",similarity);
 
-                    startActivity(popUp);
-                }
+                startActivity(popUp);
             }
         });
 
@@ -153,7 +150,6 @@ public class ReviewActivity extends AppCompatActivity {
             TextView originalWord = findViewById(R.id.originalWord);
             originalWord.setText(currentWord.getOriginalWord());
 
-            //contentLoader.saveImageForWord(currentWord,"https://www.blasty.pl/upload/images/large/2017/06/ni-pies-ni-wydra-cos-na-ksztalt_2017-06-26_08-19-34.jpg");
             Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
             image.setImageBitmap(currentWordImage);
             fillAsociations();
@@ -186,13 +182,11 @@ public class ReviewActivity extends AppCompatActivity {
         Log.i("CL","review resumed");
     }
 
-
     @Override
     protected void onPause() {
         super.onPause();
         Log.i("CL","review paused");
     }
-
 
     private int getImageId(Context context, String imageName) {
         return context.getResources().getIdentifier("drawable/" + imageName, null, context.getPackageName());

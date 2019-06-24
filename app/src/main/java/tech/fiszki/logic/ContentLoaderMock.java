@@ -2,13 +2,10 @@ package tech.fiszki.logic;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
-import java.io.Console;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -18,6 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import tech.fiszki.data.Word;
 import tech.fiszki.ui.CustomizeImage;
 
@@ -32,8 +30,7 @@ public class ContentLoaderMock implements ContentLoader {
         images.add("dog");
         images.add("duck");
 
-
-//        return  getLinksForWord(word.getOriginalWord());
+//      return  getLinksForWord(word.getOriginalWord());
         return  images;
     }
 
@@ -46,9 +43,6 @@ public class ContentLoaderMock implements ContentLoader {
         return readFromDisk(myImageFile);
     }
 
-
-
-
     @Override
     public void saveImageForWord(Word word, String url, CustomizeImage ci) {
         BasicImageDownloader imageDownloader = new BasicImageDownloader(new BasicImageDownloader.OnImageLoaderListener() {
@@ -60,7 +54,6 @@ public class ContentLoaderMock implements ContentLoader {
 
             @Override
             public void onProgressChange(int percent) {
-
             }
 
             @Override
@@ -81,14 +74,10 @@ public class ContentLoaderMock implements ContentLoader {
                     public void onBitmapSaveError(BasicImageDownloader.ImageError error) {
                         error.printStackTrace();
                     }
-
                 }, mFormat, true);
-
             }
         });
-
         imageDownloader.download(url,false);
-
     }
 
     private Bitmap readFromDisk(File imageFile) {
@@ -142,7 +131,7 @@ public class ContentLoaderMock implements ContentLoader {
             connection.setRequestProperty("charset", "utf-8");
             connection.connect();
             InputStream inStream = connection.getInputStream();
-            json = streamToString(inStream); // input stream to string
+            json = streamToString(inStream);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

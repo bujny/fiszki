@@ -10,7 +10,7 @@ public class WordSimilarityMock implements WordSimilarity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public double checkSimilarity(Word word, String text) {
-        double similarity = calculate(word.getTranslatedWord(),text);
+        double similarity = calculate(word.getTranslatedWord().toLowerCase(),text.toLowerCase());
         double result = 1-similarity/word.getTranslatedWord().length();
         return result>=0 ? result : 0;
     }

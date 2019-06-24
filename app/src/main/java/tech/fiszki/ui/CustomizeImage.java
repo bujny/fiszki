@@ -10,8 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -28,7 +26,7 @@ import tech.fiszki.logic.ContentLoader;
 import tech.fiszki.logic.ContentLoaderMock;
 
 public class CustomizeImage extends AppCompatActivity {
-    static final int NUMBER_OF_IMAGES=2;
+    static final int NUMBER_OF_IMAGES=3;
     static final int IMAGE_MARGIN=40;
 
     private Bitmap loadedBitmap;
@@ -44,8 +42,7 @@ public class CustomizeImage extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //tutaj można by zrobić że zapisuje ale na razie za dużo myślenia.
-                    //Toast.makeText(mContext, "Przyznano dostęp do plików.", Toast.LENGTH_LONG).show();
+                    //tutaj można by zrobić że zapisuje ale na razie za dużo myślenia
                 } else {
                     Toast.makeText(mContext, "Aplikacja nie ma zgody na dostęp do Twoich plików.", Toast.LENGTH_LONG).show();
                 }
@@ -105,12 +102,7 @@ public class CustomizeImage extends AppCompatActivity {
                 return false;
             });
             gallery.addView(image,layoutParams);
-
         }
-
-
-
-
     }
 
     private static boolean hasPermissions(Context context, String... permissions) {
@@ -129,8 +121,6 @@ public class CustomizeImage extends AppCompatActivity {
         return context.getResources().getIdentifier("drawable/" + imageName, null, context.getPackageName());
     }
 
-
-
     private Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);
@@ -142,7 +132,7 @@ public class CustomizeImage extends AppCompatActivity {
             loadedBitmap = myBitmap;
             return myBitmap;
         } catch (IOException e) {
-            // Log exception
+            e.printStackTrace();
             return null;
         }
     }
