@@ -415,6 +415,103 @@ public class DataLoader {
         daoSession.getWordDao().save(w31);
         daoSession.getWordDao().save(w32);
 
+        for (Association association : w1.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w2.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w3.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w4.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w5.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w6.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w7.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w8.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w9.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w10.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w11.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w12.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w13.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w14.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w15.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w16.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w17.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w18.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w19.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w20.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w21.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w22.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w23.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w24.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w25.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w26.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w27.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w28.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w29.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w30.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w31.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+        for (Association association : w32.getAssociations()) {
+            daoSession.getAssociationDao().save(association);
+        }
+
         daoSession.getReviewDayDao().save(d1);
         daoSession.getReviewDayDao().save(d2);
         daoSession.getReviewDayDao().save(d3);
