@@ -8,9 +8,9 @@ import java.util.Date;
 
 public class DataLoader {
 
-    public static void load(DaoSession daoSession) {
+    public static void loadMock(DaoSession daoSession) {
 
-        if(daoSession.getWordDao().count() > 0){
+        if (daoSession.getWordDao().count() > 0) {
             return;
         }
 
@@ -22,7 +22,7 @@ public class DataLoader {
         d2.setReviewAlgorithm(reviewAlgorithm);
         ReviewDay d3 = ReviewDay.builder().daysAfterBeginning(2).reviewAlgorithm(reviewAlgorithm).build();
         d3.setReviewAlgorithm(reviewAlgorithm);
-        reviewAlgorithm.setReviewDays(Arrays.asList(d1,d2,d3));
+        reviewAlgorithm.setReviewDays(Arrays.asList(d1, d2, d3));
 
         int startedDaysAgo = 5;
         LocalDateTime startDate = LocalDateTime.now().minusHours(1).minusDays(startedDaysAgo);
@@ -148,8 +148,8 @@ public class DataLoader {
 
 
         ArrayList<Word> words = new ArrayList<>();
-        for (int i = 20; i < 100 ; i++) {
-            words.add(Word.builder().originalWord("Word"+i).translatedWord("Word"+i).language("us").build());
+        for (int i = 20; i < 100; i++) {
+            words.add(Word.builder().originalWord("Word" + i).translatedWord("Word" + i).language("us").build());
         }
 
 
@@ -203,6 +203,223 @@ public class DataLoader {
         for (Word word : words) {
             daoSession.getWordDao().save(word);
         }
+
+    }
+
+    public static void load(DaoSession daoSession) {
+        if (daoSession.getWordDao().count() > 0) {
+            return;
+        }
+
+
+        ReviewAlgorithm reviewAlgorithm = ReviewAlgorithm.builder().name("Algorithm1").build();
+        daoSession.getReviewAlgorithmDao().save(reviewAlgorithm);
+        ReviewDay d1 = ReviewDay.builder().daysAfterBeginning(0).reviewAlgorithm(reviewAlgorithm).build();
+        d1.setReviewAlgorithm(reviewAlgorithm);
+        ReviewDay d2 = ReviewDay.builder().daysAfterBeginning(1).reviewAlgorithm(reviewAlgorithm).build();
+        d2.setReviewAlgorithm(reviewAlgorithm);
+        ReviewDay d3 = ReviewDay.builder().daysAfterBeginning(2).reviewAlgorithm(reviewAlgorithm).build();
+        d3.setReviewAlgorithm(reviewAlgorithm);
+        reviewAlgorithm.setReviewDays(Arrays.asList(d1, d2, d3));
+
+
+        Word w1 = (Word.builder().originalWord("Abracadabra").translatedWord("Abrakadabra").language("us").repetitions(new ArrayList<>()).build());
+        w1.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Abra").build(),
+                Association.builder().word(w1).associationWord("Pokemon").build()
+        ));
+        Word w2 = (Word.builder().originalWord("Agenda").translatedWord("Program").language("us").repetitions(new ArrayList<>()).build());
+        w2.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Schedule").build()
+        ));
+        Word w3 = (Word.builder().originalWord("Aircraft").translatedWord("Samolot").language("us").repetitions(new ArrayList<>()).build());
+        w3.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Airplane").build()
+        ));
+        Word w4 = (Word.builder().originalWord("Alliance").translatedWord("Sojusz").language("us").repetitions(new ArrayList<>()).build());
+        w4.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("II World War").build(),
+                Association.builder().word(w1).associationWord("League").build()
+        ));
+        Word w5 = (Word.builder().originalWord("Attorney").translatedWord("Prawnik").language("us").repetitions(new ArrayList<>()).build());
+        w5.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Lawyer").build()
+        ));
+        Word w6 = (Word.builder().originalWord("Burden").translatedWord("Brzemie").language("us").repetitions(new ArrayList<>()).build());
+        w6.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("The One Ring of Power").build()
+        ));
+        Word w7 = (Word.builder().originalWord("Precious").translatedWord("Cenny").language("us").repetitions(new ArrayList<>()).build());
+        w7.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Gollum").build(),
+                Association.builder().word(w1).associationWord("Lord of The Rings").build()
+        ));
+        Word w8 = (Word.builder().originalWord("Cabinet").translatedWord("Gabinet").language("us").repetitions(new ArrayList<>()).build());
+        w8.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Office").build()
+        ));
+        Word w9 = (Word.builder().originalWord("Carrier").translatedWord("Przewoźnik").language("us").repetitions(new ArrayList<>()).build());
+        w9.setAssociations(Arrays.asList(Association.builder().word(w1).associationWord("Messenger").build()
+        ));
+        Word w10 = (Word.builder().originalWord("Coal").translatedWord("Węgiel").language("us").repetitions(new ArrayList<>()).build());
+        w10.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Miner").build(),
+                Association.builder().word(w1).associationWord("Mine").build()
+        ));
+        Word w11 = (Word.builder().originalWord("Council").translatedWord("Rada").language("us").repetitions(new ArrayList<>()).build());
+        w11.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Mine").build()
+
+        ));
+        Word w12 = (Word.builder().originalWord("Counter").translatedWord("Licznik").language("us").repetitions(new ArrayList<>()).build());
+        w12.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Register").build(),
+                Association.builder().word(w1).associationWord("1,2,3").build()
+
+        ));
+        Word w13 = (Word.builder().originalWord("Dignity").translatedWord("Godność").language("us").repetitions(new ArrayList<>()).build());
+        w13.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Majesty").build()
+
+        ));
+        Word w14 = (Word.builder().originalWord("Dispute").translatedWord("Spór").language("us").repetitions(new ArrayList<>()).build());
+        w14.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Quarrel").build()
+
+        ));
+        Word w15 = (Word.builder().originalWord("Enchanter").translatedWord("Czarodziej").language("us").repetitions(new ArrayList<>()).build());
+        w15.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Witch").build(),
+                Association.builder().word(w1).associationWord("Wizzard").build()
+
+        ));
+        Word w16 = (Word.builder().originalWord("Exhibit").translatedWord("Eksponat").language("us").repetitions(new ArrayList<>()).build());
+        w16.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Display unit").build()
+
+        ));
+        Word w17 = (Word.builder().originalWord("Fence").translatedWord("Płot").language("us").repetitions(new ArrayList<>()).build());
+        w17.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("").build()
+
+        ));
+        Word w18 = (Word.builder().originalWord("Gaze").translatedWord("Spojrzenie").language("us").repetitions(new ArrayList<>()).build());
+        w18.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Look").build()
+
+        ));
+        Word w19 = (Word.builder().originalWord("Headquaters").translatedWord("Siedziba").language("us").repetitions(new ArrayList<>()).build());
+        w19.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Base").build()
+
+        ));
+        Word w20 = (Word.builder().originalWord("Heritage").translatedWord("Dziedzictwo").language("us").repetitions(new ArrayList<>()).build());
+        w20.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Legacy").build()
+
+        ));
+        Word w21 = (Word.builder().originalWord("Infant").translatedWord("Niemowle").language("us").repetitions(new ArrayList<>()).build());
+        w21.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Little kid").build()
+
+        ));
+        Word w22 = (Word.builder().originalWord("Joint").translatedWord("Ściegno").language("us").repetitions(new ArrayList<>()).build());
+        w22.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Muscles").build()
+        ));
+        Word w23 = (Word.builder().originalWord("Sinister").translatedWord("Złowieszczy").language("us").repetitions(new ArrayList<>()).build());
+        w23.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Evil").build()
+
+        ));
+        Word w24 = (Word.builder().originalWord("Conjuring").translatedWord("Sztuczki magiczne").language("us").repetitions(new ArrayList<>()).build());
+        w24.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Horror").build()
+
+        ));
+        Word w25 = (Word.builder().originalWord("Iris").translatedWord("Tęczówka").language("us").repetitions(new ArrayList<>()).build());
+        w25.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Eye").build(),
+                Association.builder().word(w1).associationWord("Colorful").build()
+
+        ));
+        Word w26 = (Word.builder().originalWord("Smeared").translatedWord("Rozmazany").language("us").repetitions(new ArrayList<>()).build());
+        w26.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Make-up").build(),
+                Association.builder().word(w1).associationWord("Blurred").build()
+
+
+        ));
+        Word w27 = (Word.builder().originalWord("Mezanine").translatedWord("Półpiętro").language("us").repetitions(new ArrayList<>()).build());
+        w27.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Macklemore - Thrift Shop").build(),
+                Association.builder().word(w1).associationWord("Floor").build()
+        ));
+        Word w28 = (Word.builder().originalWord("Mortgage").translatedWord("Kredyt hipoteczny").language("us").repetitions(new ArrayList<>()).build());
+        w28.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Monopoly").build()
+        ));
+        Word w29 = (Word.builder().originalWord("Wick").translatedWord("Knot").language("us").repetitions(new ArrayList<>()).build());
+        w29.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Candle").build()
+        ));
+        Word w30 = (Word.builder().originalWord("Occupation").translatedWord("Zawód").language("us").repetitions(new ArrayList<>()).build());
+        w30.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("Job").build()
+        ));
+        Word w31 = (Word.builder().originalWord("Porch").translatedWord("Ganek").language("us").repetitions(new ArrayList<>()).build());
+        w31.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("House").build(),
+                Association.builder().word(w1).associationWord("Veranda").build(),
+                Association.builder().word(w1).associationWord("PyTorch").build()
+
+        ));
+        Word w32 = (Word.builder().originalWord("Torch").translatedWord("Pochodnia").language("us").repetitions(new ArrayList<>()).build());
+        w32.setAssociations(Arrays.asList(
+                Association.builder().word(w1).associationWord("PyTorch").build(),
+                Association.builder().word(w1).associationWord("Fire").build(),
+                Association.builder().word(w1).associationWord("Light").build()
+        ));
+
+
+        daoSession.getWordDao().save(w1);
+        daoSession.getWordDao().save(w2);
+        daoSession.getWordDao().save(w3);
+        daoSession.getWordDao().save(w4);
+        daoSession.getWordDao().save(w5);
+        daoSession.getWordDao().save(w6);
+        daoSession.getWordDao().save(w7);
+        daoSession.getWordDao().save(w8);
+        daoSession.getWordDao().save(w9);
+        daoSession.getWordDao().save(w10);
+        daoSession.getWordDao().save(w11);
+        daoSession.getWordDao().save(w12);
+        daoSession.getWordDao().save(w13);
+        daoSession.getWordDao().save(w14);
+        daoSession.getWordDao().save(w15);
+        daoSession.getWordDao().save(w16);
+        daoSession.getWordDao().save(w17);
+        daoSession.getWordDao().save(w18);
+        daoSession.getWordDao().save(w19);
+        daoSession.getWordDao().save(w20);
+        daoSession.getWordDao().save(w21);
+        daoSession.getWordDao().save(w22);
+        daoSession.getWordDao().save(w23);
+        daoSession.getWordDao().save(w24);
+        daoSession.getWordDao().save(w25);
+        daoSession.getWordDao().save(w26);
+        daoSession.getWordDao().save(w27);
+        daoSession.getWordDao().save(w28);
+        daoSession.getWordDao().save(w29);
+        daoSession.getWordDao().save(w30);
+        daoSession.getWordDao().save(w31);
+        daoSession.getWordDao().save(w32);
+
+        daoSession.getReviewDayDao().save(d1);
+        daoSession.getReviewDayDao().save(d2);
+        daoSession.getReviewDayDao().save(d3);
+
+        daoSession.getReviewAlgorithmDao().save(reviewAlgorithm);
 
     }
 }
