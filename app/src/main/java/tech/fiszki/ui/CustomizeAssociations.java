@@ -2,17 +2,15 @@ package tech.fiszki.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import tech.fiszki.R;
-import tech.fiszki.logic.Association;
-import tech.fiszki.logic.Word;
+import tech.fiszki.data.Association;
+import tech.fiszki.data.Word;
 
 public class CustomizeAssociations extends AppCompatActivity {
     final Word currentWord = ReviewActivity.thisActivity.getCurrentWord();
@@ -29,16 +27,13 @@ public class CustomizeAssociations extends AppCompatActivity {
          fillScrollViewWithAssociations();
 
         Button addAssociation = findViewById(R.id.addAssociation);
-        addAssociation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText editText = findViewById(R.id.newAssociation);
-                String text = String.valueOf(editText.getText());
-                if(!text.matches("")){
-                    currentWord.addAssociation(new Association(text));
-                    fillScrollViewWithAssociations();
-                    editText.setText("");
-                }
+        addAssociation.setOnClickListener(view -> {
+            EditText editText = findViewById(R.id.newAssociation);
+            String text = String.valueOf(editText.getText());
+            if(!text.matches("")){
+                currentWord.getAssociations().add(Association.builder().associationWord(text).build());
+                fillScrollViewWithAssociations();
+                editText.setText("");
             }
         });
 
@@ -51,13 +46,10 @@ public class CustomizeAssociations extends AppCompatActivity {
             textView.setText(association.getAssociationWord());
             textView.setTextSize(25f);
 
-            textView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    currentWord.removeAssociation(association);
-                    linearLayout.removeView(view);
-                    return true;
-                }
+            textView.setOnLongClickListener(view -> {
+                currentWord.getAssociations().remove(association);
+                linearLayout.removeView(view);
+                return true;
             });
             linearLayout.addView(textView);
         }

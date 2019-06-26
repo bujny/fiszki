@@ -1,10 +1,11 @@
 package tech.fiszki.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,36 +17,46 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.fiszki.R;
-import tech.fiszki.logic.Association;
+import tech.fiszki.data.Association;
+import tech.fiszki.data.Word;
+import tech.fiszki.logic.ContentLoader;
+import tech.fiszki.logic.ContentLoaderMock;
 import tech.fiszki.logic.RepetitionManager;
-import tech.fiszki.logic.RepetitionManagerMock;
-import tech.fiszki.logic.TextToSpeech;
-import tech.fiszki.logic.Word;
-import tech.fiszki.logic.WordSelector;
-import tech.fiszki.logic.WordSelectorMock;
+import tech.fiszki.logic.TTF;
+import tech.fiszki.logic.TextToSpeechMock;
+import tech.fiszki.logic.RepetitionManagerImpl;
+
 import tech.fiszki.logic.WordSimilarity;
 import tech.fiszki.logic.WordSimilarityMock;
+import tech.fiszki.logic.repetition_algorithm.InsufficientWordCountException;
+import tech.fiszki.logic.repetition_algorithm.MainWordsSelector;
+import tech.fiszki.logic.repetition_algorithm.WordSelector;
 
 public class ReviewActivity extends AppCompatActivity {
-    private List<Word> wordsReviewList;
+    private List<Word> wordsReviewList = new ArrayList<>();
     private Word currentWord;
     private int currentWordCount = 0;
     private double averageSimilarity;
     private ImageView image;
     private EditText response;
     private LinearLayout associations;
+    private ContentLoader contentLoader = new ContentLoaderMock();
 
     private static final int WORD_COUNT=2;
     static ReviewActivity thisActivity;
 
+    private WordSelector wordSelector = new MainWordsSelector();
+
     public Word getCurrentWord() {
         return currentWord;
     }
+
+    TTF textToSpeech = new TextToSpeechMock();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,85 +65,69 @@ public class ReviewActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         thisActivity = this;
+        textToSpeech.onInit(getApplicationContext());
+        contentLoader = new ContentLoaderMock();
 
-        WordSelector wordSelector = new WordSelectorMock();
-        wordsReviewList = wordSelector.nextWordsToReview(WORD_COUNT);
+        try {
+            wordsReviewList = wordSelector.nextWordsToReview(WORD_COUNT);
+        } catch (InsufficientWordCountException e) {
+            e.printStackTrace();
+            Log.i("CLI","Kolejnych słów brak!");
+        }
 
         image = findViewById(R.id.image);
         final ScrollView scrollView = findViewById(R.id.scrollView);
 
         response = findViewById(R.id.response);
-        response.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus) {
-                    image.setVisibility(View.GONE);
-                    scrollView.setVisibility(View.GONE);
-                }
-                else {
-                    image.setVisibility(View.VISIBLE);
-                    scrollView.setVisibility(View.VISIBLE);
-                }
+        response.setOnFocusChangeListener((view, hasFocus) -> {
+            if(hasFocus) {
+                image.setVisibility(View.GONE);
+                scrollView.setVisibility(View.GONE);
+            }
+            else {
+                image.setVisibility(View.VISIBLE);
+                scrollView.setVisibility(View.VISIBLE);
             }
         });
 
-        image.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),CustomizeImage.class);
-                startActivity(intent);
-                return false;
-            }
+        image.setOnLongClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(),CustomizeImage.class);
+            startActivity(intent);
+            return false;
         });
 
         associations = findViewById(R.id.associations);
 
-        associations.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),CustomizeAssociations.class);
-                startActivity(intent);
-                return false;
-            }
+        associations.setOnLongClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(),CustomizeAssociations.class);
+            startActivity(intent);
+            return false;
         });
 
         Button go = findViewById(R.id.go);
-        go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!response.getText().toString().matches("")) {
-                    RepetitionManager repetitionManager = new RepetitionManagerMock();
-                    WordSimilarity wordSimilarity = new WordSimilarityMock();
-                    double similarity = wordSimilarity.checkSimilarity(currentWord, response.getText().toString());
-                    repetitionManager.saveRepetition(currentWord, similarity);
-                    averageSimilarity += similarity;
-                    response.clearFocus();
-                    hideKeyboard();
+        go.setOnClickListener(view -> {
+            if(!response.getText().toString().matches("")) {
+                RepetitionManager repetitionManager = new RepetitionManagerImpl();
+                WordSimilarity wordSimilarity = new WordSimilarityMock();
+                double similarity = wordSimilarity.checkSimilarity(currentWord, response.getText().toString());
+                repetitionManager.saveRepetition(currentWord, similarity);
+                averageSimilarity += similarity;
+                response.clearFocus();
+                hideKeyboard();
 
-                    Intent popUp = new Intent(getApplicationContext(), PopActivity.class);
-                    popUp.putExtra("translatedWord",currentWord.getTranslatedWord());
-                    popUp.putExtra("similarity",similarity);
+                Intent popUp = new Intent(getApplicationContext(), PopActivity.class);
+                popUp.putExtra("translatedWord",currentWord.getTranslatedWord());
+                popUp.putExtra("similarity",similarity);
 
-                    startActivity(popUp);
-                }
+                startActivity(popUp);
             }
         });
 
         ImageView speaker = findViewById(R.id.speaker);
-        speaker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TextToSpeech textToSpeech = new TextToSpeech() {
-                    @Override
-                    public void read(String text) {
-                        Toast.makeText(ReviewActivity.this, "reading "+text, Toast.LENGTH_SHORT).show();
-                    }
-                };
-                textToSpeech.read(currentWord.getOriginalWord());
-            }
-        });
+        speaker.setOnClickListener(view -> textToSpeech.read(currentWord.getOriginalWord()));
 
         displayWord();
+
     }
 
     void displayWord() {
@@ -143,8 +138,8 @@ public class ReviewActivity extends AppCompatActivity {
             TextView originalWord = findViewById(R.id.originalWord);
             originalWord.setText(currentWord.getOriginalWord());
 
-            image.setImageResource(getImageId(getApplicationContext(),currentWord.getOriginalWord()));
-
+            Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
+            image.setImageBitmap(currentWordImage);
             fillAsociations();
 
             currentWordCount++;
@@ -159,6 +154,26 @@ public class ReviewActivity extends AppCompatActivity {
             popUp.putExtra("isSummary",true);
             startActivity(popUp);
         }
+    }
+
+   @Override
+    protected void onStart(){
+       super.onStart();
+       Bitmap currentWordImage = contentLoader.getCurrentWordImage(currentWord);
+       image.setImageBitmap(currentWordImage);
+       Log.i("CL","review started");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("CL","review resumed");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("CL","review paused");
     }
 
     private int getImageId(Context context, String imageName) {
@@ -185,6 +200,8 @@ public class ReviewActivity extends AppCompatActivity {
 
     void fillAsociations() {
         associations.removeAllViews();
+        Log.i("CLI","Czy tu wchodzi?");
+        Log.i("CLI","Liczba as: "+currentWord.getAssociations().size());
         for(Association association : currentWord.getAssociations()) {
             TextView textView = new TextView(this);
             textView.setText(association.getAssociationWord());

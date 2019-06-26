@@ -51,7 +51,7 @@ public class PopActivity extends AppCompatActivity {
         progressBar.setProgress(100);
         progressBar.setProgress(similarityInt);
         translatedWordView.setText(translatedWord);
-        similarityView.setText("poprawnosc "+similarityInt+"%");
+        similarityView.setText("Poprawność "+similarityInt+"%");
 
         ConstraintLayout layout = findViewById(R.id.layout);
 
