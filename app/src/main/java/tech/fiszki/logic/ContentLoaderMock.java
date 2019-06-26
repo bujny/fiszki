@@ -101,7 +101,8 @@ public class ContentLoaderMock implements ContentLoader {
         String[] split = json.split("[\\[\\]]");
         List<String> links = new ArrayList<String>();
         links.addAll(getTagValues(split[1]));
-        return links.subList(0,numberOfImages);
+        int nr = numberOfImages<=links.size() ? numberOfImages : links.size();
+            return links.subList(0, nr);
     }
 
 

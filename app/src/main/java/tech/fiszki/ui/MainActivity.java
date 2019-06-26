@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        daoMaster = new DaoMaster(new DaoMaster.DevOpenHelper(this, "database8.db").getWritableDatabase());
+        daoMaster = new DaoMaster(new DaoMaster.DevOpenHelper(this, "database100.db").getWritableDatabase());
         DaoSession mDaoSession = daoMaster.newSession();
 
         DataLoader.load(mDaoSession);

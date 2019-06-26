@@ -2,7 +2,6 @@ package tech.fiszki.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,16 +27,13 @@ public class CustomizeAssociations extends AppCompatActivity {
          fillScrollViewWithAssociations();
 
         Button addAssociation = findViewById(R.id.addAssociation);
-        addAssociation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText editText = findViewById(R.id.newAssociation);
-                String text = String.valueOf(editText.getText());
-                if(!text.matches("")){
-//                    currentWord.addAssociation(Association.builder().associationWord(text).build());
-//                    fillScrollViewWithAssociations();
-//                    editText.setText("");
-                }
+        addAssociation.setOnClickListener(view -> {
+            EditText editText = findViewById(R.id.newAssociation);
+            String text = String.valueOf(editText.getText());
+            if(!text.matches("")){
+                currentWord.getAssociations().add(Association.builder().associationWord(text).build());
+                fillScrollViewWithAssociations();
+                editText.setText("");
             }
         });
 
@@ -50,13 +46,10 @@ public class CustomizeAssociations extends AppCompatActivity {
             textView.setText(association.getAssociationWord());
             textView.setTextSize(25f);
 
-            textView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-//                    currentWord.removeAssociation(association);
-//                    linearLayout.removeView(view);
-                    return true;
-                }
+            textView.setOnLongClickListener(view -> {
+                currentWord.getAssociations().remove(association);
+                linearLayout.removeView(view);
+                return true;
             });
             linearLayout.addView(textView);
         }

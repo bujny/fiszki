@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.fiszki.R;
@@ -37,7 +38,7 @@ import tech.fiszki.logic.repetition_algorithm.MainWordsSelector;
 import tech.fiszki.logic.repetition_algorithm.WordSelector;
 
 public class ReviewActivity extends AppCompatActivity {
-    private List<Word> wordsReviewList;
+    private List<Word> wordsReviewList = new ArrayList<>();
     private Word currentWord;
     private int currentWordCount = 0;
     private double averageSimilarity;
@@ -71,44 +72,36 @@ public class ReviewActivity extends AppCompatActivity {
             wordsReviewList = wordSelector.nextWordsToReview(WORD_COUNT);
         } catch (InsufficientWordCountException e) {
             e.printStackTrace();
+            Log.i("CLI","Kolejnych słów brak!");
         }
 
         image = findViewById(R.id.image);
         final ScrollView scrollView = findViewById(R.id.scrollView);
 
         response = findViewById(R.id.response);
-        response.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus) {
-                    image.setVisibility(View.GONE);
-                    scrollView.setVisibility(View.GONE);
-                }
-                else {
-                    image.setVisibility(View.VISIBLE);
-                    scrollView.setVisibility(View.VISIBLE);
-                }
+        response.setOnFocusChangeListener((view, hasFocus) -> {
+            if(hasFocus) {
+                image.setVisibility(View.GONE);
+                scrollView.setVisibility(View.GONE);
+            }
+            else {
+                image.setVisibility(View.VISIBLE);
+                scrollView.setVisibility(View.VISIBLE);
             }
         });
 
-        image.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),CustomizeImage.class);
-                startActivity(intent);
-                return false;
-            }
+        image.setOnLongClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(),CustomizeImage.class);
+            startActivity(intent);
+            return false;
         });
 
         associations = findViewById(R.id.associations);
 
-        associations.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),CustomizeAssociations.class);
-                startActivity(intent);
-                return false;
-            }
+        associations.setOnLongClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(),CustomizeAssociations.class);
+            startActivity(intent);
+            return false;
         });
 
         Button go = findViewById(R.id.go);
@@ -131,12 +124,7 @@ public class ReviewActivity extends AppCompatActivity {
         });
 
         ImageView speaker = findViewById(R.id.speaker);
-        speaker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textToSpeech.read(currentWord.getOriginalWord());
-            }
-        });
+        speaker.setOnClickListener(view -> textToSpeech.read(currentWord.getOriginalWord()));
 
         displayWord();
 
@@ -212,6 +200,8 @@ public class ReviewActivity extends AppCompatActivity {
 
     void fillAsociations() {
         associations.removeAllViews();
+        Log.i("CLI","Czy tu wchodzi?");
+        Log.i("CLI","Liczba as: "+currentWord.getAssociations().size());
         for(Association association : currentWord.getAssociations()) {
             TextView textView = new TextView(this);
             textView.setText(association.getAssociationWord());
